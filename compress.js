@@ -73,6 +73,8 @@ async function compressImage() {
     if (reduceSize) {
       const newWidth = Math.round(metadata.width * (reduceSize / 100));
       const newHeight = Math.round(metadata.height * (reduceSize / 100));
+      console.log(`Original dimensions: ${metadata.width}x${metadata.height}`);
+      console.log(`New dimensions after reduction: ${newWidth}x${newHeight}`);
       image = image.resize(newWidth, newHeight);
       outputFilePath = path.join(
         path.dirname(inputFilePath),
