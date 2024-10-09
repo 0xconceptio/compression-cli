@@ -29,17 +29,31 @@ const argv = yargs
     type: 'number',
     default: 9,
   })
+  .option('reduce-size', {
+    alias: 'r',
+    describe: 'Percentage to reduce the image size (1-99)',
+    type: 'number',
+    coerce: (value) => {
+      if (value < 1 || value > 99) {
+        throw new Error('reduce-size must be between 1 and 99');
+      }
+      return value;
+    },
+  })
   .help()
   .alias('help', 'h')
   .argv;
 
 // Extract arguments from argv
 const inputFilePath = argv['input-file'];
-const outputFilePath = argv['output-file'] ||
+const reduceSize = argv['reduce-size'];
+
+let outputFilePath = argv['output-file'] ||
   path.join(
     path.dirname(inputFilePath),
     `${path.basename(inputFilePath, path.extname(inputFilePath))}-compressed${path.extname(inputFilePath)}`
   );
+
 const quality = argv.quality;
 const compressionLevel = argv.compressionLevel;
 
@@ -51,8 +65,23 @@ async function compressImage() {
     const inputFileSizeKB = inputFileStats.size / 1024;
     console.log(`Input file size: ${inputFileSizeKB.toFixed(2)} KB`);
 
+    // Load input image
+    let image = sharp(inputFilePath);
+    const metadata = await image.metadata();
+
+    // Reduce image size if reduce-size option is provided
+    if (reduceSize) {
+      const newWidth = Math.round(metadata.width * (reduceSize / 100));
+      const newHeight = Math.round(metadata.height * (reduceSize / 100));
+      image = image.resize(newWidth, newHeight);
+      outputFilePath = path.join(
+        path.dirname(inputFilePath),
+        `${path.basename(inputFilePath, path.extname(inputFilePath))}-compressed-${newWidth}x${newHeight}${path.extname(inputFilePath)}`
+      );
+    }
+
     // Compress the image
-    await sharp(inputFilePath)
+    await image
       .png({ quality: quality, compressionLevel: compressionLevel })
       .toFile(outputFilePath);
 
