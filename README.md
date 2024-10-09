@@ -1,6 +1,6 @@
-# CLI TinyPNG Compressor
+# Compression-CLI
 
-This is a simple command-line utility built using Node.js that compresses PNG images, similar to TinyPNG. It allows you to reduce the size of PNG files while maintaining acceptable image quality. This utility uses the `sharp` library to perform image compression, and `yargs` to handle command-line arguments.
+Compression-CLI is a simple command-line utility built using Node.js that compresses PNG images, similar to TinyPNG. It allows you to reduce the size of PNG files while maintaining acceptable image quality. This utility uses the `sharp` library to perform image compression, and `yargs` to handle command-line arguments.
 
 ## Features
 - Compress PNG images to reduce file size.
@@ -17,7 +17,7 @@ This is a simple command-line utility built using Node.js that compresses PNG im
 1. Clone the repository or create your project directory:
    ```bash
    git clone <repository-url>
-   cd tinypng-clone
+   cd compression-cli
    ```
 2. Install the required dependencies:
    ```bash
