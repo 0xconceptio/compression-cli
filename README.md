@@ -28,7 +28,7 @@ Compression-CLI is a simple command-line utility built using Node.js that compre
 To compress an image, use the following command:
 
 ```bash
-node index.js --input-file <path-to-input-file> [options]
+node compress.js --input-file <path-to-input-file> [options]
 ```
 
 ### Command-Line Arguments
@@ -42,25 +42,25 @@ node index.js --input-file <path-to-input-file> [options]
 
 1. **Basic Compression with Default Settings**
    ```bash
-   node index.js --input-file ./images/sample.png
+   node compress.js --input-file ./images/sample.png
    ```
    This command compresses `sample.png` and saves it as `sample-compressed.png` in the same directory, using the default quality of `70` and compression level of `9`.
 
 2. **Specify Output File Path**
    ```bash
-   node index.js --input-file ./images/sample.png --output-file ./compressed/output.png
+   node compress.js --input-file ./images/sample.png --output-file ./compressed/output.png
    ```
    This command compresses `sample.png` and saves it to `./compressed/output.png`.
 
 3. **Set Custom Quality and Compression Level**
    ```bash
-   node index.js --input-file ./images/sample.png --quality 50 --compressionLevel 5
+   node compress.js --input-file ./images/sample.png --quality 50 --compressionLevel 5
    ```
    This command compresses the image with a quality of `50` and a compression level of `5`, saving it as `sample-compressed.png`.
 
 4. **Reduce Image Dimensions**
    ```bash
-   node index.js --input-file ./images/sample.png --reduce-size 50
+   node compress.js --input-file ./images/sample.png --reduce-size 50
    ```
    This command reduces the dimensions of `sample.png` by `50%`, retains the aspect ratio, and saves the compressed image as `sample-compressed-<newWidth>x<newHeight>.png`.
 
