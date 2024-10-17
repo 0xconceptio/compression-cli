@@ -29,16 +29,10 @@ const argv = yargs
     type: 'number',
     default: 9,
   })
-  .option('reduce-size', {
+  .option('resize-width', {
     alias: 'r',
-    describe: 'Percentage to reduce the image size (1-99)',
+    describe: 'Width to resize the image to (integer value)',
     type: 'number',
-    coerce: (value) => {
-      if (value < 1 || value > 99) {
-        throw new Error('reduce-size must be between 1 and 99');
-      }
-      return value;
-    },
   })
   .help()
   .alias('help', 'h')
@@ -46,7 +40,7 @@ const argv = yargs
 
 // Extract arguments from argv
 const inputFilePath = argv['input-file'];
-const reduceSize = argv['reduce-size'];
+const resizeWidth = argv['resize-width'];
 
 let outputFilePath = argv['output-file'] ||
   path.join(
@@ -69,17 +63,19 @@ async function compressImage() {
     let image = sharp(inputFilePath);
     const metadata = await image.metadata();
 
-    // Reduce image size if reduce-size option is provided
-    if (reduceSize) {
-      const newWidth = Math.round(metadata.width * (reduceSize / 100));
-      const newHeight = Math.round(metadata.height * (reduceSize / 100));
+    // Resize image if resize-width option is provided
+    if (resizeWidth) {
+      const newHeight = Math.round((metadata.height / metadata.width) * resizeWidth);
       console.log(`Original dimensions: ${metadata.width}x${metadata.height}`);
-      console.log(`New dimensions after reduction: ${newWidth}x${newHeight}`);
-      image = image.resize(newWidth, newHeight);
-      outputFilePath = path.join(
-        path.dirname(inputFilePath),
-        `${path.basename(inputFilePath, path.extname(inputFilePath))}-compressed-${newWidth}x${newHeight}${path.extname(inputFilePath)}`
-      );
+      console.log(`New dimensions after resizing: ${resizeWidth}x${newHeight}`);
+      image = image.resize(resizeWidth, newHeight);
+
+      if (!argv['output-file']) {
+        outputFilePath = path.join(
+          path.dirname(inputFilePath),
+          `${path.basename(inputFilePath, path.extname(inputFilePath))}-compressed-${resizeWidth}x${newHeight}${path.extname(inputFilePath)}`
+        );
+      }
     }
 
     // Compress the image

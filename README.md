@@ -5,7 +5,7 @@ Compression-CLI is a simple command-line utility built using Node.js that compre
 ## Features
 - Compress PNG images to reduce file size.
 - Specify output quality and compression level.
-- Resize images while retaining aspect ratio.
+- Resize images to a specific width while retaining aspect ratio.
 - Automatic output file naming.
 - Easy-to-use command-line interface.
 
@@ -36,7 +36,7 @@ node compress.js --input-file <path-to-input-file> [options]
 - `--output-file` or `-o` (optional): The path where the compressed file should be saved. If not specified, the output file will have the same name as the input file, with `-compressed` appended before the extension.
 - `--quality` or `-q` (optional): The quality of the compressed image (0-100). Default is `70`.
 - `--compressionLevel` or `-c` (optional): The compression level for the PNG file (0-9). Default is `9`.
-- `--reduce-size` or `-r` (optional): Percentage to reduce the image dimensions (1-99). The aspect ratio is retained. For example, if the original image is 100px by 50px and `--reduce-size 50` is provided, the output will be 50px by 25px. The output file name will also include the new dimensions (e.g., `filename-compressed-50x25.png`).
+- `--resize-width` or `-r` (optional): The width to resize the image to, while retaining the aspect ratio. The output file name will also include the new dimensions (e.g., `filename-compressed-<newWidth>x<newHeight>.png`).
 
 ### Examples
 
@@ -58,11 +58,11 @@ node compress.js --input-file <path-to-input-file> [options]
    ```
    This command compresses the image with a quality of `50` and a compression level of `5`, saving it as `sample-compressed.png`.
 
-4. **Reduce Image Dimensions**
+4. **Resize Image to Specific Width**
    ```bash
-   node compress.js --input-file ./images/sample.png --reduce-size 50
+   node compress.js --input-file ./images/sample.png --resize-width 500
    ```
-   This command reduces the dimensions of `sample.png` by `50%`, retains the aspect ratio, and saves the compressed image as `sample-compressed-<newWidth>x<newHeight>.png`.
+   This command resizes `sample.png` to a width of `500` pixels while retaining the aspect ratio, and saves the compressed image as `sample-compressed-<newWidth>x<newHeight>.png`.
 
 ## Output
 - The script logs the following information:
@@ -90,3 +90,4 @@ Feel free to submit pull requests or issues if you'd like to contribute to the p
 ## Acknowledgments
 - Thanks to the creators of the `sharp` library for making image processing easy in Node.js.
 - Inspired by the TinyPNG service.
+
